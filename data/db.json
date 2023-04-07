@@ -2,9 +2,17 @@
   "accounts": [
     {
       "id": "Ju_cWeO9A",
-      "title": "手机",
+      "title": "魅族16s",
       "time": "2023-04-08",
       "type": "1",
+      "account": "1",
+      "remarks": "1"
+    },
+    {
+      "id": "Ju_cWeO1A",
+      "title": "魅族20",
+      "time": "2023-04-08",
+      "type": "-1",
       "account": "1",
       "remarks": "1"
     }
