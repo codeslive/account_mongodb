@@ -30,4 +30,14 @@ router.post('/account', function(req, res, next) {
    res.render('success', {msg: '添加成功哦~~~', url: '/account'});
 });
 
+//删除记录
+router.get('/account/:id', (req, res) => {
+  //获取 params 的 id 参数
+  let id = req.params.id;
+  //删除
+  db.get('accounts').remove({id:id}).write();
+  //提醒
+  res.render('success', {msg: '删除成功~~~', url: '/account'});
+});
+
 module.exports = router;
