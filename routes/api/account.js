@@ -12,11 +12,23 @@ router.get('/account', function (req, res, next) {
   //读取集合信息
   AccountModel.find().sort({ time: -1 }).exec((err, data) => {
     if (err) {
-      res.status(500).send('读取失败~~~');
+      res.json({
+        code: '1001',
+        msg: '读取失败',
+        data: null
+      });
       return;
     }
     //响应成功的提示
-    res.render('list', { accounts: data, moment: moment });
+    // res.render('list', { accounts: data, moment: moment });
+    res.json({
+      //响应编号
+      code: '0000',
+      //响应信息
+      msg: '读取成功',
+      //响应的数据
+      data:data
+    });
   })
 });
 
@@ -35,27 +47,100 @@ router.post('/account', (req, res) => {
     time: moment(req.body.time).toDate()
   }, (err, data) => {
     if (err) {
-      res.status(500).send('插入失败~~');
+      res.json({
+        code: '1002',
+        msg: '创建失败',
+        data: null
+      });      
       return
     }
     //成功提醒
-    res.render('success', { msg: '添加成功哦~~~', url: '/account' });
+    res.json({
+      code: '0000',
+      msg: '创建成功',
+      data: data
+    });
   })
 });
 
 //删除记录
-router.get('/account/:id', (req, res) => {
+router.delete('/account/:id', (req, res) => {
   //获取 params 的 id 参数
   let id = req.params.id;
   //删除
   AccountModel.deleteOne({ _id: id }, (err, data) => {
     if (err) {
-      res.status(500).send('删除失败~');
+      res.json({
+        code: '1003',
+        msg: '删除失败',
+        data: null
+      });
       return;
     }
     //提醒
-    res.render('success', { msg: '删除成功~~~', url: '/account' });
+    res.json({
+      code: '0000',
+      msg: '删除成功',
+      data: {}
+    });
   })
+});
+
+//获取单个账单信息
+
+router.get('/account/:id', (req, res)=>{
+  //获取id
+  let {id} = req.params;
+  AccountModel.findById(id, (err, data)=>{
+    if(err){
+      //响应失败
+      return res.json({
+        code: '1004',
+        msg: '查找失败',
+        data: null
+      });
+    }
+    //相应成功
+    res.json({
+      code: '0000',
+      msg: '查找成功',
+      data: data
+    });
+  });
+
+//更新账单信息
+router.patch('/account/:id', (req, res)=>{
+  //获取id参数值
+  let {id} = req.params;
+  //更新数据库
+  AccountModel.updateOne({_id:id}, req.body, (err, data)=>{
+    if(err){
+      return res.json({
+        code: '1005',
+        msg: '查找失败',
+        data: null
+      });
+    }
+
+    AccountModel.findById(id, (err, data)=>{
+      if(err){
+        return res.json({
+          code: '1005',
+          msg: '查找失败',
+          data: null
+        });
+      }
+      //成功响应
+      res.json({
+        code: '0000',
+        msg: '更新成功',
+        data: data
+      });
+    })
+
+  }); 
+});
+
 });
 
 module.exports = router;
