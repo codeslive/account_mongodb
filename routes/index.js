@@ -8,11 +8,23 @@ const adapter = new FileSync(__dirname + '/../data/db.json');
 const db = low(adapter);
 //导入 shortid
 const shortid = require('shortid');
-//记账本列表
+//导入 moment
+const moment = require('moment');
+const AccountModel = require('../models/AccountModel');
+
+//记账本的列表
 router.get('/account', function(req, res, next) {
-    //获取所有的账单信息
-    let accounts = db.get('accounts').value();
-    res.render('list', {accounts: accounts});
+  //获取所有的账单信息
+  // let accounts = db.get('accounts').value();
+  //读取集合信息
+  AccountModel.find().sort({time: -1}).exec((err, data) => {
+    if(err){
+      res.status(500).send('读取失败~~~');
+      return;
+    }
+    //响应成功的提示
+    res.render('list', {accounts: data, moment: moment});
+  })
 });
 
 //调价记录
@@ -21,13 +33,21 @@ router.get('/account/create', function(req, res, next) {
 });
 
 //新增记录
-router.post('/account', function(req, res, next) {
-   //生成 id
-   let id = shortid.generate();
-   //写入文件
-   db.get('accounts').unshift({id:id, ...req.body}).write();
-   //成功提醒
-   res.render('success', {msg: '添加成功哦~~~', url: '/account'});
+//新增记录
+router.post('/account', (req, res) => {
+  //插入数据库
+  AccountModel.create({
+    ...req.body,
+    //修改 time 属性的值
+    time: moment(req.body.time).toDate()
+  }, (err, data) => {
+    if(err){
+      res.status(500).send('插入失败~~');
+      return
+    }
+    //成功提醒
+    res.render('success', {msg: '添加成功哦~~~', url: '/account'});
+  })
 });
 
 //删除记录
