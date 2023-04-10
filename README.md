@@ -7,6 +7,14 @@
 
 > https://accounts.codeslive.top/
 
+> 项目运行端口
+
+- 3550
+
+> 线上效果
+
+![](https://img.tucang.cc/api/image/show/f113006af43f2a96118261658c2a1732)
+
 ### gitee地址
 
 ```bash
@@ -24,3 +32,5 @@ git clone https://github.com/codeslive/accounts.git
 [点击跳转](https://github.com/codeslive/accounts)
 
 ![](https://img.tucang.cc/api/image/show/cb7fdd4e66e156ab675406682098c17e)
+
+
