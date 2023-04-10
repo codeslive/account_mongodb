@@ -34,6 +34,7 @@ router.post('/login', (req, res) => {
   //查询数据库
   UserModel.findOne({ username: username, password: md5(password) }, (err, data) => {
     //判断
+    console.log(username);
     if (err) {
       res.status(500).send('登录失败，请稍后再试');
       return
@@ -43,8 +44,8 @@ router.post('/login', (req, res) => {
       return res.send('账号或密码错误');
     }
     //写入session
-    // req.session.username = data.username;
-    // req.session._id = data.id;
+    req.session.username = data.username;
+    req.session._id = data.id;
 
     //登录成功响应
     res.render('success', { msg: '登录成功', url: '/account' });
