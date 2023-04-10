@@ -9,12 +9,28 @@
   <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet" />
   <link rel="shortcut icon" href="//img.tucang.cc/api/image/show/71392363c114a1dd3a1b90da8f88fa2c" type="image/x-icon">
 </head>
+<style>
+  .reg_link{
+    display: flex;
+  }
 
+  .reg_link a{
+    display: inline-block;
+    position: relative;
+    top: 35px;
+    left: 5px;
+    text-decoration: underline;
+  }
+
+
+</style>
 <body>
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
-        <h2>登录</h2>
+          <div class="reg_link">
+            <h2>登录</h2><a href="/reg" class="reg">还没账号?去注册</a>
+          </div>
         <hr />
         <form method="post" action="/login">
           <div class="form-group">
